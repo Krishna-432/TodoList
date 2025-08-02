@@ -15,4 +15,6 @@ public class TodoList {
     private Long id;
     @Column(nullable = false)
     private String title;
+    @Column(nullable = false)
+    private boolean status;
 }
