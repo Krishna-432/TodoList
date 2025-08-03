@@ -1,0 +1,6 @@
+CREATE TABLE todo_list (
+    id BIGINT NOT NULL AUTO_INCREMENT,
+    title VARCHAR(255) NOT NULL,
+    status BOOLEAN NOT NULL,
+    PRIMARY KEY (id)
+);
