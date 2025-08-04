@@ -1,10 +1,6 @@
 package com.example.todo.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Column;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Data;
 
 import java.time.LocalDateTime;
@@ -22,6 +18,10 @@ public class TodoList {
     @Column(nullable = false)
     private boolean status;
 
-    @Column(updatable = false,nullable = false)
+    @Column(name = "created_at", nullable = false, updatable = false, insertable = false)
     private LocalDateTime createdAt;
+
+    @Enumerated(EnumType.STRING)  //This annotation tells JPA how to store the enum (Priority) in the database.
+    @Column(nullable = false)
+    private Priority priority;
 }

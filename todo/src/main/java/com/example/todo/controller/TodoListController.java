@@ -11,16 +11,37 @@ import java.util.List;
 @RestController
 public class TodoListController {
     @Autowired
-    TodoListService service;
+    private TodoListService service;
 
-    @PostMapping("/add")
-    public void addTodo(@RequestBody TodoList todoList) {
-        service.addTodo(todoList);
-        System.out.println("Title added successfully!!");
+    @GetMapping
+    public List<TodoList> getAllTodos() {
+        return service.getAllTodos();
     }
 
-    @GetMapping("/getall")
-    public List<TodoList> getAll() {
-        return service.getAll();
+    @GetMapping("/{id}")
+    public TodoList getTodoById(@PathVariable Long id) {
+        return service.getTodoById(id)
+                .orElseThrow(() -> new RuntimeException("Todo not found with ID: " + id));
+    }
+
+    @GetMapping("/title/{title}")
+    public TodoList findByTitle(@PathVariable String title){
+        return service.findByTitle(title)
+                .orElseThrow(() -> new RuntimeException("Todo not found by Title" + title));
+    }
+
+    @PostMapping
+    public TodoList addTodo(@RequestBody TodoList todoList) {
+        return service.addTodo(todoList);
+    }
+
+    @PutMapping("/{id}")
+    public TodoList updateTodo(@PathVariable Long id , @RequestBody TodoList todoList){
+        return service.updateTodo(id,todoList);
+    }
+
+    @DeleteMapping("/{id}")
+    public void deleteTodo(@PathVariable Long id){
+        service.deleteTodo(id);
     }
 }
