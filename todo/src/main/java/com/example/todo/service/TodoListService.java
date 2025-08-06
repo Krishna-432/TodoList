@@ -2,7 +2,6 @@ package com.example.todo.service;
 
 import com.example.todo.entity.TodoList;
 import com.example.todo.repository.TodoListRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -10,8 +9,13 @@ import java.util.Optional;
 
 @Service
 public class TodoListService {
-    @Autowired
-    TodoListRepository repo;
+    // 1. Declare the dependency as final for immutability
+    private final TodoListRepository repo;
+
+    // 2. Create a public constructor for dependency injection
+    public TodoListService(TodoListRepository repo) {
+        this.repo = repo;
+    }
 
     public List<TodoList> getAllTodos() {
         return repo.findAll();
@@ -26,8 +30,8 @@ public class TodoListService {
     }
 
     public TodoList addTodo(TodoList todoList) {
-        TodoList saved = repo.save(todoList);
-        return repo.findById(saved.getId()).orElse(saved);  // GOOD: this reloads from DB
+        // The object returned by save() is already the complete, persisted entity.
+        return repo.save(todoList);
     }
 
     public TodoList updateTodo(Long id, TodoList updatedTodo) {
